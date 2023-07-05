@@ -107,16 +107,18 @@ timer_canvas.grid(
     row=1,
     column=0)
 
+# ---------------------------- game controls ---------------------------- #
+
 word_canvas = Canvas(
     width=550,
-    height=500,
+    height=100,
     bg='#a6a6a6',
     highlightthickness=0
 )
 
 word_canvas_text = word_canvas.create_text(
     550/2,
-    25,
+    50,
     text='Type max words you can.',
     fill='white',
     font=FONT_24,
@@ -126,6 +128,36 @@ word_canvas.grid(
     row=2,
     column=0
 )
+
+# word label
+word_label = Label(
+    text='word label',
+    fg='gray',
+    font=FONT_24,
+)
+word_label.grid(
+    row=3,
+    column=0,
+    pady=40,
+)
+
+entry_word = Entry(
+    font=FONT_32,
+    width=50,
+    justify='center',
+)
+entry_word.grid(
+    row=4,
+    column=0,
+    pady=30,
+)
+
+# entry
+# typing_entry = word_canvas.text
+
+
+
+# ---------------------------- timer start ---------------------------- #
 
 start_timer()
 
