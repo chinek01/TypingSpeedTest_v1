@@ -69,6 +69,10 @@ def count_down(count):
             count_down,
             count - 1
         )
+
+        entry_word.config(
+            state='normal'
+        )
     else:
         global is_start_typing
         is_start_typing = False
@@ -80,9 +84,11 @@ def count_down(count):
         )
 
         global score
-        hint_label.config(
-            text=f"{score.result()}"
+        showinfo(
+            title="Your scores",
+            message=f"You write {score.result()} words per min."
         )
+        score.reset_results()
 
 
 def word_enter(event):
