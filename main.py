@@ -68,7 +68,7 @@ window.title("Typing speed test by MC")
 window.config(
     padx=100,
     pady=50,
-    # bg= # todo: do zastanowienia się
+    bg="#323232"
 )
 window.minsize(
     width=800,
@@ -141,6 +141,7 @@ word_label.grid(
     pady=40,
 )
 
+# entry
 entry_word = Entry(
     font=FONT_32,
     width=50,
@@ -152,15 +153,21 @@ entry_word.grid(
     pady=30,
 )
 
-# entry
-# typing_entry = word_canvas.text
-
+# some hint
+hint_label = Label(
+    text="To start press space bar",
+    font=FONT_16,
+    fg="gray",
+    pady=30,
+)
+hint_label.grid(
+    row=5,
+    column=0
+)
 
 
 # ---------------------------- timer start ---------------------------- #
 
 start_timer()
 
-
 window.mainloop()
-
