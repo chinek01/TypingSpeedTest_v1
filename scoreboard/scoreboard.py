@@ -22,6 +22,14 @@ class scoreboard:
         self._corr_answer = 0
         self._n_corr_answer = 0
 
+    def reset_results(self):
+        """
+        Reset resultqs :)
+        """
+        self._answers.clear()
+        self._corr_answer = 0
+        self._n_corr_answer = 0
+
     def add_answer(self,
                    answer: bool):
         """

@@ -12,6 +12,7 @@ Another version of this project. Previous wos so bad :)
 
 
 from word_worker.word_worker import word_worker
+from scoreboard.scoreboard import scoreboard
 from tkinter import *
 from time import strftime, gmtime
 
@@ -25,12 +26,21 @@ FONT_16 = ("NewYork", 16)
 
 is_start_typing = False
 timer = None
+game_on = False
+user_word = None
+chosen_word = None
 
-# ---------------------------- words mechanizm ---------------------------- #
+# ---------------------------- words mechanism ---------------------------- #
 my_words = word_worker()
 my_words.get_words_list('word_db.txt')
 
-# ---------------------------- timer mechanizm ------------------------------------ #
+
+# ---------------------------- scoreboard mechanism ---------------------------- #
+
+score = scoreboard()
+score.reset_results()
+
+# ---------------------------- timer mechanism ------------------------------------ #
 
 
 def start_timer():
@@ -38,7 +48,6 @@ def start_timer():
 
     if not is_start_typing:
         is_start_typing = True
-
         count_down(60)
 
 
@@ -59,9 +68,45 @@ def count_down(count):
             count_down,
             count - 1
         )
+    else:
+        global game_on
+        game_on = False
+        entry_word.config(
+            state='disabled'
+        )
 
+
+def word_enter(event):
+    if event.char == ' ':
+        global game_on
+
+        if game_on is True:
+            global user_word
+            user_word = entry_word.get()
+
+            put_another_word()
+            # cleaning entry control
+            entry_word.delete('0', 'end')
+
+
+def put_another_word():
+    global game_on
+    global user_word
+    global chosen_word
+
+    if game_on is False:
+        game_on = True
+        start_timer()
+
+    if game_on is True:
+        global chosen_word
+        chosen_word = my_words.choice_word()
+        word_label.config(
+            text=chosen_word
+        )
 
 # ---------------------------- UI ------------------------------------ #
+
 
 window = Tk()
 window.title("Typing speed test by MC")
@@ -133,7 +178,7 @@ word_canvas.grid(
 word_label = Label(
     text='word label',
     fg='gray',
-    font=FONT_24,
+    font=FONT_48,
 )
 word_label.grid(
     row=3,
@@ -165,9 +210,10 @@ hint_label.grid(
     column=0
 )
 
-
 # ---------------------------- timer start ---------------------------- #
 
-start_timer()
+entry_word.bind("<Key>", word_enter)
+
+# start_timer()
 
 window.mainloop()
