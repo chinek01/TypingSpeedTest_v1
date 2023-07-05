@@ -15,6 +15,7 @@ from word_worker.word_worker import word_worker
 from scoreboard.scoreboard import scoreboard
 from tkinter import *
 from time import strftime, gmtime
+from tkinter.messagebox import showinfo
 
 
 # ---------------------------- constance ------------------------------------ #
@@ -69,10 +70,18 @@ def count_down(count):
             count - 1
         )
     else:
+        global is_start_typing
+        is_start_typing = False
+
         global game_on
         game_on = False
         entry_word.config(
             state='disabled'
+        )
+
+        global score
+        hint_label.config(
+            text=f"{score.result()}"
         )
 
 
@@ -81,12 +90,21 @@ def word_enter(event):
         global game_on
 
         if game_on is True:
-            global user_word
-            user_word = entry_word.get()
+            global chosen_word
 
-            put_another_word()
-            # cleaning entry control
-            entry_word.delete('0', 'end')
+            if chosen_word is not None:
+                global user_word
+                user_word = entry_word.get()
+
+                global score
+                if user_word.replace(" ", "").lower() == chosen_word:
+                    score.add_answer(True)
+                else:
+                    score.add_answer(False)
+
+        put_another_word()
+        # cleaning entry control
+        entry_word.delete('0', 'end')
 
 
 def put_another_word():
